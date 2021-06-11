@@ -2,7 +2,7 @@ import React from 'react'
 import { Text, View, Button } from 'react-native'   // view is a replacement for div
 
 
-const Landing = ( navigation ) => {
+const Landing = ( {navigation} ) => {
     // navigation will give us the router we want to go to
     return (
         <View style = {{
