@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import * as firebase from 'firebase'
@@ -10,13 +10,13 @@ import LandingScreen from './components/auth/Landing'
 import RegisterScreen from './components/auth/Register'
 import LoginScreen from './components/auth/Login'
 
+import envConfig from './.env.json'
+
+
+
 // create the environmental variable
-require('dotenv').config
 
-// your firebase config
-const firebaseConfig = {
-
-};
+const firebaseConfig = envConfig.FIREBASE_CONFIG
 
 // make sure not running any firebase at the moment
 if(firebase.apps.length === 0){
@@ -26,7 +26,32 @@ if(firebase.apps.length === 0){
 
 const Stack = createStackNavigator(); 
 // screen, routes
-export default function App() {
+const App = () => {
+  const [loaded, setLoaded] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false)
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user)=>{
+      // console.log('auth...................')
+      if(!user){
+        setLoggedIn(false)
+        setLoaded(true)
+      }
+      else{
+        setLoggedIn(true)
+        setLoaded(true)
+      }
+    })
+  },[])
+  
+  if(!loaded){
+    return(
+      <View style={{flex: 1, justifyContent: 'center'}}>
+        <Text>Loading</Text>
+      </View>
+    )
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Landing"> 
@@ -46,3 +71,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default App
+

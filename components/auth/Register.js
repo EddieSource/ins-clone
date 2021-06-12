@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { View, Button, TextInput } from 'react-native'
 import firebase from 'firebase'
 
-const Register = () => {
+const Register = (props) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -10,7 +10,15 @@ const Register = () => {
     const onSignUp = () => {
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((res) => {
+            firebase.firestore().collection("users")
+                .doc(firebase.auth().currentUser.uid)
+                .set({
+                    name, 
+                    email
+                })
+
             console.log(res)
+            // props.navigation.pop()
         })
         .catch((err) => {
             console.log(err)
