@@ -39,7 +39,7 @@ const App = () => {
   const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
-    firebase.auth().signOut().catch((err) => {})
+
     firebase.auth().onAuthStateChanged((user)=>{
       // console.log('auth...................')
       if(!user){

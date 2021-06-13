@@ -5,18 +5,26 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { fetchUser } from '../redux/actions/index'
 
-const Main = (props) => {
+const Main = ({currentUser, fetchUser}) => {
     useEffect(() => {
-        props.fetchUser()
+        fetchUser()
     }, [])
-    
+
+    console.log(currentUser)
+    if(currentUser==undefined){
+        return(<View></View>)
+    }
     return(
         <View style={{ flex: 1, justifyContent: 'center'}}>
-            <Text>User is logged in</Text>
+            <Text>{currentUser.name} is logged in</Text>
         </View>
     )
 }
 
+const mapStateToProps = (store) => {
+    return { currentUser: store.userState.currentUser }
+}
+
 const mapDispatchProps = (dispatch) => bindActionCreators({fetchUser}, dispatch)
 
-export default connect(null, mapDispatchProps)(Main)
+export default connect(mapStateToProps, mapDispatchProps)(Main)
