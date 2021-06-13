@@ -9,8 +9,17 @@ import { createStackNavigator } from '@react-navigation/stack'
 import LandingScreen from './components/auth/Landing'
 import RegisterScreen from './components/auth/Register'
 import LoginScreen from './components/auth/Login'
+import MainScreen from './components/Main'
+
 
 import envConfig from './.env.json'
+
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware } from 'redux'
+import rootReducer from './redux/reducers'
+import thunk from 'redux-thunk'
+
+const store = createStore(rootReducer, applyMiddleware(thunk))
 
 
 
@@ -23,7 +32,6 @@ if(firebase.apps.length === 0){
   firebase.initializeApp(firebaseConfig)
 }
 
-
 const Stack = createStackNavigator(); 
 // screen, routes
 const App = () => {
@@ -31,6 +39,7 @@ const App = () => {
   const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
+    firebase.auth().signOut().catch((err) => {})
     firebase.auth().onAuthStateChanged((user)=>{
       // console.log('auth...................')
       if(!user){
@@ -43,7 +52,7 @@ const App = () => {
       }
     })
   },[])
-  
+
   if(!loaded){
     return(
       <View style={{flex: 1, justifyContent: 'center'}}>
@@ -52,15 +61,22 @@ const App = () => {
     )
   }
 
+  if (!loggedIn) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Landing"> 
+          <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false}}/>
+          <Stack.Screen name="Register" component={RegisterScreen}/>
+          <Stack.Screen name="Login" component={LoginScreen}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Landing"> 
-        <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false}}/>
-        <Stack.Screen name="Register" component={RegisterScreen}/>
-        <Stack.Screen name="Login" component={LoginScreen}/>
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+    <Provider store={store}>
+      <MainScreen />
+    </Provider>
+  )
 }
 
 const styles = StyleSheet.create({

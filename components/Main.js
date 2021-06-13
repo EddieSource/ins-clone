@@ -1,17 +1,22 @@
 import React, { useEffect } from 'react'
+import { View, Text } from 'react-native'
 
-const Main = () => {
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { fetchUser } from '../redux/actions/index'
+
+const Main = (props) => {
     useEffect(() => {
-        return () => {
-            
-        };
+        props.fetchUser()
     }, [])
     
     return(
-        <View>
-
+        <View style={{ flex: 1, justifyContent: 'center'}}>
+            <Text>User is logged in</Text>
         </View>
     )
 }
 
-export default Main
+const mapDispatchProps = (dispatch) => bindActionCreators({fetchUser}, dispatch)
+
+export default connect(null, mapDispatchProps)(Main)
