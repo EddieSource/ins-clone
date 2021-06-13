@@ -9,10 +9,13 @@ import FeedScreen from './main/Feed'
 import AddScreen from './main/Add'
 import ProfileScreen from './main/Profile'
 
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-const Tab = createBottomTabNavigator()
+const Tab = createMaterialBottomTabNavigator()
+const EmptyScreen = ()=>{
+    return(null)
+}
 
 const Main = ({currentUser, fetchUser}) => {
     useEffect(() => {
@@ -27,25 +30,34 @@ const Main = ({currentUser, fetchUser}) => {
         // <View style={{ flex: 1, justifyContent: 'center'}}>
         //     <Text>{currentUser.name} is logged in</Text>
         // </View>
-        <Tab.Navigator>
+        <Tab.Navigator initialRouteName="Feed" labeled={false}>
             <Tab.Screen name="Feed" component={FeedScreen} 
-            options={{
-                tabBarIcon: ({ color, size }) => (
-                    <Icon name="home" color={color} size={26} />
-                ), 
-            }}/>
-            <Tab.Screen name="Add" component={AddScreen} 
-            options={{
-                tabBarIcon: ({ color, size }) => (
-                    <Icon name="plus-box" color={color} size={26} />
-                ), 
-            }}/>
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <Icon name="home" color={color} size={26} />
+                    ), 
+                }}/>
+
+            <Tab.Screen name="Add" component={EmptyScreen} 
+                listeners={({ navigation }) => ({
+                    tabPress: event => {
+                        event.preventDefault()  // time to overwrite the tab press
+                        navigation.navigate("AddScreen")
+
+                    }
+                })}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <Icon name="plus-box" color={color} size={26} />
+                    ), 
+                }}/>
+
             <Tab.Screen name="Profile" component={ProfileScreen} 
-            options={{
-                tabBarIcon: ({ color, size }) => (
-                    <Icon name="account-circle" color={color} size={26} />
-                ), 
-            }}/>
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <Icon name="account-circle" color={color} size={26} />
+                    ), 
+                }}/>
         </Tab.Navigator>
     )
 }
