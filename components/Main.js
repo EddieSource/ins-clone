@@ -38,11 +38,11 @@ const Main = ({currentUser, fetchUser}) => {
                     ), 
                 }}/>
 
-            <Tab.Screen name="Add" component={EmptyScreen} 
+            <Tab.Screen name="AddContainer" component={EmptyScreen} 
                 listeners={({ navigation }) => ({
                     tabPress: event => {
                         event.preventDefault()  // time to overwrite the tab press
-                        navigation.navigate("AddScreen")
+                        navigation.navigate("Add")
 
                     }
                 })}

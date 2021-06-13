@@ -78,7 +78,7 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Main"> 
           <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false}}/>
-          <Stack.Screen name="AddScreen" component={AddScreen}/>
+          <Stack.Screen name="Add" component={AddScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
