@@ -11,12 +11,9 @@ const Save = (props, {navigation}) => {
     const uploadImage = async () => {
         const uri = props.route.params.image
         const childPath = `post/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`
-        console.log('1st')
         console.log(uri)
         const response = await fetch(uri)
-        console.log('2nd')
         const blob = await response.blob()  // returns a file-like object
-        console.log('3rd')
     
         const task = firebase
             .storage()
@@ -60,7 +57,7 @@ const Save = (props, {navigation}) => {
             <Image source={{uri: props.route.params.Image}}/>
             <TextInput
                 placeholder="Write a Caption ..."
-                onChangeText={(captions) => setCaption(caption)}
+                onChangeText={(caption) => setCaption(caption)}
             />
             <Button title="Save" onPress={() => uploadImage()} />
 

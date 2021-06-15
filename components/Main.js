@@ -3,7 +3,7 @@ import { View, Text } from 'react-native'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { fetchUser } from '../redux/actions/index'
+import { fetchUser, fetchUserPosts } from '../redux/actions/index'
 
 import FeedScreen from './main/Feed'
 import AddScreen from './main/Add'
@@ -17,9 +17,10 @@ const EmptyScreen = ()=>{
     return(null)
 }
 
-const Main = ({currentUser, fetchUser}) => {
+const Main = ({currentUser, fetchUser, fetchUserPosts}) => {
     useEffect(() => {
         fetchUser()
+        fetchUserPosts()
     }, [])
 
     // console.log(currentUser)
@@ -66,6 +67,6 @@ const mapStateToProps = (store) => {
     return { currentUser: store.userState.currentUser }
 }
 
-const mapDispatchProps = (dispatch) => bindActionCreators({fetchUser}, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({ fetchUser, fetchUserPosts }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchProps)(Main)
+export default connect(mapStateToProps, mapDispatchToProps)(Main)
