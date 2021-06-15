@@ -5,7 +5,7 @@ import firebase from 'firebase'
 require("firebase/firestore")
 require("firebase/firebase-storage")
 
-const Save = (props) => {
+const Save = (props, {navigation}) => {
     const [caption, setCaption] = useState("")
 
     const uploadImage = async () => {
@@ -30,6 +30,7 @@ const Save = (props) => {
     
         const taskCompleted = () => {
             task.snapshot.ref.getDownloadURL().then((snapshot) => {
+                savePostData(snapshot)
                 console.log(snapshot)
             })
         }
@@ -41,6 +42,19 @@ const Save = (props) => {
         task.on("state_change", taskProgress, taskError, taskCompleted)
     }
     
+    const savePostData = (downloadURL) => {
+        firebase.firestore().collection('post')
+            .doc(firebase.auth().currentUser.uid)
+            .collection("userPosts")
+            .add( {
+                downloadURL, 
+                caption, 
+                creation: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(()=>{
+                props.navigation.popToTop()
+            })
+    }
+
     return (
         <View>
             <Image source={{uri: props.route.params.Image}}/>
