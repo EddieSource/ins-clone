@@ -11,6 +11,7 @@ import RegisterScreen from './components/auth/Register'
 import LoginScreen from './components/auth/Login'
 import MainScreen from './components/Main'
 import AddScreen from './components/main/Add'
+import SaveScreen from './components/main/Save'
 
 
 import envConfig from './.env.json'
@@ -79,6 +80,7 @@ const App = () => {
         <Stack.Navigator initialRouteName="Main"> 
           <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false}}/>
           <Stack.Screen name="Add" component={AddScreen}/>
+          <Stack.Screen name="Save" component={SaveScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
