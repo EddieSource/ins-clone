@@ -8,7 +8,6 @@ import { connect } from 'react-redux'
 const UserProfile = (props) => {
     const [userPosts, setUserPosts] = useState([])
     const [user, setUser] = useState(null)
-    console.log( props.route.params.uid)
     
     useEffect(() => {
         const { currentUser, posts } = props

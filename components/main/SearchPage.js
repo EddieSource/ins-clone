@@ -18,12 +18,6 @@ const SearchPage = () => {
             <Stack.Screen 
                 name="Search" 
                 component={Search}
-                listeners={({ navigation }) => ({
-                    tabPress: event => {
-                        event.preventDefault()  // time to overwrite the tab press
-                        navigation.navigate("UserProfile", {uid: firebase.auth().currentUser.uid})
-                    }
-                })}
             />
             <Stack.Screen name="UserProfile" component={UserProfile}/>
         </Stack.Navigator>
@@ -31,5 +25,5 @@ const SearchPage = () => {
 }
 
 
-export default connect(null)(SearchPage)
+export default SearchPage
 
