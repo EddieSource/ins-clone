@@ -9,10 +9,9 @@ const Profile = (props) => {
     const [userPosts, setUserPosts] = useState([])
     const [user, setUser] = useState(null)
     
-
-    
     useEffect(() => {
         const { currentUser, posts } = props
+        console.log(props.route.params.uid)
         if(props.route.params.uid === firebase.auth().currentUser.uid){
             setUser(currentUser)
             setUserPosts(posts)
