@@ -5,7 +5,7 @@ import firebase from 'firebase'
 require("firebase/firestore")
 require("firebase/firebase-storage")
 
-const Save = (props, {navigation}) => {
+const Save = (props) => {
     const [caption, setCaption] = useState("")
 
     const uploadImage = async () => {

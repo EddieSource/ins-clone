@@ -34,8 +34,6 @@ const fetchUserPosts = () => {
                     const id = doc.id; 
                     return{id, ...data}
                 })
-                console.log('.......')
-                console.log(posts)
                 dispatch({type: USER_POSTS_STATE_CHANGE, posts: posts})
             })
     })

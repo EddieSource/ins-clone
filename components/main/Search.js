@@ -33,8 +33,11 @@ const Search = ({navigation}) => {
                 horizontal={false}
                 data={users}
                 renderItem={({item}) => (
+                    // <TouchableOpacity
+                    //     onPress = {() => navigation.navigate("Profile", {uid: item.uid})}
+                    //     >
                     <TouchableOpacity
-                        onPress = {() => navigation.navigate("Profile", {uid: item.uid})}
+                        onPress = {() => navigation.navigate("UserProfile")}
                         >
                         <Text>{item.name}</Text>
                     </TouchableOpacity>

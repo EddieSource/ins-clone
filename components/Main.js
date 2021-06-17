@@ -9,7 +9,8 @@ import { fetchUser, fetchUserPosts } from '../redux/actions/index'
 import FeedScreen from './main/Feed'
 import AddScreen from './main/Add'
 import ProfileScreen from './main/Profile'
-import SearchScreen from './main/Search'
+//import SearchScreen from './main/Search'
+import SearchScreen from './main/SearchPage'
 
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -38,13 +39,13 @@ const Main = ({currentUser, fetchUser, fetchUserPosts}) => {
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <Icon name="home" color={color} size={26} />
-                    ), 
+                    )
                 }}/>
-            <Tab.Screen name="Search" component={SearchScreen} 
+            <Tab.Screen name="SearchPage" component={SearchScreen} 
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <Icon name="magnify" color={color} size={26} />
-                    ), 
+                    )
                 }}/>
 
             <Tab.Screen name="AddContainer" component={EmptyScreen} 
@@ -58,21 +59,14 @@ const Main = ({currentUser, fetchUser, fetchUserPosts}) => {
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <Icon name="plus-box" color={color} size={26} />
-                    ), 
+                    )
                 }}/>
 
             <Tab.Screen name="Profile" component={ProfileScreen} 
-                listeners={({ navigation }) => ({
-                    tabPress: event => {
-                        event.preventDefault()  // time to overwrite the tab press
-                        navigation.navigate("Profile", {uid: firebase.auth().currentUser.uid})
-
-                    }
-                })}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <Icon name="account-circle" color={color} size={26} />
-                    ), 
+                    )
                 }}/>
         </Tab.Navigator>
     )
