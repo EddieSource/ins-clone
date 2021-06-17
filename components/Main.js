@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { View, Text } from 'react-native'
+import * as firebase from 'firebase'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -8,6 +9,7 @@ import { fetchUser, fetchUserPosts } from '../redux/actions/index'
 import FeedScreen from './main/Feed'
 import AddScreen from './main/Add'
 import ProfileScreen from './main/Profile'
+import SearchScreen from './main/Search'
 
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -38,6 +40,12 @@ const Main = ({currentUser, fetchUser, fetchUserPosts}) => {
                         <Icon name="home" color={color} size={26} />
                     ), 
                 }}/>
+            <Tab.Screen name="Search" component={SearchScreen} 
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <Icon name="magnify" color={color} size={26} />
+                    ), 
+                }}/>
 
             <Tab.Screen name="AddContainer" component={EmptyScreen} 
                 listeners={({ navigation }) => ({
@@ -54,6 +62,13 @@ const Main = ({currentUser, fetchUser, fetchUserPosts}) => {
                 }}/>
 
             <Tab.Screen name="Profile" component={ProfileScreen} 
+                listeners={({ navigation }) => ({
+                    tabPress: event => {
+                        event.preventDefault()  // time to overwrite the tab press
+                        navigation.navigate("Profile", {uid: firebase.auth().currentUser.uid})
+
+                    }
+                })}
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <Icon name="account-circle" color={color} size={26} />
