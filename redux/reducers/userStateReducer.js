@@ -22,11 +22,6 @@ export const userStateReducer = (state = initialState, action) => {
                 ...state, 
                 posts: action.posts
             }
-        case USER_FOLLOWING_STATE_CHANGE: 
-            return {
-                ...state, 
-                following: action.following
-            }
     }
 
 }
