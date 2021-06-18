@@ -1,5 +1,6 @@
-import { USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE } from '../constants/index'
+import { USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE } from '../constants/index'
 import firebase from 'firebase'
+
 
 const fetchUser = () => {
     return((dispatch) => {
@@ -34,13 +35,29 @@ const fetchUserPosts = () => {
                     const id = doc.id; 
                     return{id, ...data}
                 })
-                console.log('.......')
-                console.log(posts)
                 dispatch({type: USER_POSTS_STATE_CHANGE, posts: posts})
+            })
+    })
+}
+
+const fetchUserFollowing = () => {
+    return((dispatch) => {
+        firebase.firestore()
+            .collection("following")
+            .doc(firebase.auth().currentUser.uid)
+            .collection("userFollowing")
+            .onSnapshot((snapshot) => {
+                // if(snapshot.exists) returns false, can try
+                // it's a listner, each time the collection changes we get()
+                let following = snapshot.docs.map(doc => {
+                    const id = doc.id; 
+                    return id
+                })
+                dispatch({type: USER_FOLLOWING_STATE_CHANGE, following: following})
             })
     })
 }
 
 
 
-export { fetchUser, fetchUserPosts }
+export { fetchUser, fetchUserPosts, fetchUserFollowing }
