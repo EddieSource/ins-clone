@@ -1,6 +1,6 @@
 import React from 'react'
-import { View, Text, Image, StyleSheet, FlatList } from 'react-native'
-
+import { View, Text, Image, StyleSheet, FlatList, Button } from 'react-native'
+import firebase from 'firebase'
 import { connect } from 'react-redux' 
 
 const Profile = ({currentUser, posts}) => {
@@ -11,6 +11,14 @@ const Profile = ({currentUser, posts}) => {
                 <Text>{currentUser.name}</Text>
                 <Text>{currentUser.email}</Text>
             </View>
+
+            <Button title="logout" onPress={async () => 
+                {
+                    console.log("start")
+                    await firebase.auth().signOut
+                    console.log('done')
+                }
+            }/>
 
             <View style={styles.containerGallery}>
                 <FlatList
