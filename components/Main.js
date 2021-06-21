@@ -26,6 +26,7 @@ const Main = ({currentUser, fetchUser, fetchUserPosts, fetchUserFollowing}) => {
         fetchUserFollowing()
     }, [])
 
+    
     // console.log(currentUser)
     // if(currentUser==undefined){
     //     return(<View></View>)
