@@ -91,7 +91,7 @@ const fetchUsersFollowingPosts = (uid) => {
 
                 console.log(posts)
                 console.log('posts done')
-                dispatch({type: USERS_POSTS_STATE_CHANGE, posts: posts})
+                dispatch({type: USERS_POSTS_STATE_CHANGE, posts: posts, uid: uid})
                 console.log(getState())
                 }
                 finally {}
