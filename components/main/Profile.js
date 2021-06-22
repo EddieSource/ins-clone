@@ -47,7 +47,7 @@ const Profile = (props) => {
                 })
                 setUserPosts(posts)
         })
-        // console.log(props.following)
+
         if(props.following.indexOf(props.route.params.uid) > -1){
             // the current user follows search user
             setFollowing(true); 
@@ -79,6 +79,9 @@ const Profile = (props) => {
         .delete()
     }
 
+    const onLogout = () => {
+        firebase.auth().signOut()
+    }
 
     return(
         <View style={styles.container}>
@@ -101,7 +104,11 @@ const Profile = (props) => {
                             />
                         )}
                     </View>
-                ) : null}
+                ) :                  
+                <Button
+                    title="Logout"
+                    onPress={() => onLogout()}
+                />}
 
             </View>
 
