@@ -61,6 +61,13 @@ const Feed = (props) => {
                                     style={styles.image}
                                     source={{uri: item.downloadURL}}
                                 />
+                                <Button
+                                    title = 'View Comments'
+                                    onPress = {() => props.navigation.navigate('Comment', 
+                                    { postId: item.id, uid: item.user.uid})
+                                
+                                }>   
+                                </Button>
                             </View>
                         )
                     }}
