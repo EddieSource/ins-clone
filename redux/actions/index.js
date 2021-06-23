@@ -58,12 +58,42 @@ const fetchUserFollowing = () => {
                 dispatch({type: USER_FOLLOWING_STATE_CHANGE, following: following})
                              
                 for ( let i = 0; i < following.length; i++){
-                    dispatch(fetchUsersData(following[i])); 
+                    dispatch(fetchUsersData(following[i], true)); 
                 }
             })
     })
 }
 
+
+export function fetchUsersData(uid, getPosts){
+    return((dispatch, getState) => {
+        // see if some of the usesState.users match the passing in uid
+        const found = getState().usersState.users.some(elem => elem.uid === uid)
+        // if the uid is not in our array
+        if(!found){
+            firebase.firestore()
+            .collection("users")
+            .doc(uid)
+            .get()
+            .then((snapshot) => {
+                // if(snapshot.exists) returns false, can try
+                if(snapshot.exists){
+                    let user = snapshot.data(); 
+                    user.uid = snapshot.id; 
+
+                    dispatch({type: USERS_DATA_STATE_CHANGE, user: user})
+
+                }
+                else {
+                    console.log('does not exist')
+                }
+            })
+            if(getPosts){
+                dispatch(fetchUsersFollowingPosts(uid)); 
+            }
+        }
+    })
+}
 
 const fetchUsersFollowingPosts = (uid) => {
     console.log('....')
@@ -100,31 +130,5 @@ const fetchUsersFollowingPosts = (uid) => {
 }
 
 
-export function fetchUsersData(uid){
-    return((dispatch, getState) => {
-        // see if some of the usesState.users match the passing in uid
-        const found = getState().usersState.users.some(elem => elem.uid === uid)
-        // if the uid is not in our array
-        if(!found){
-            firebase.firestore()
-            .collection("users")
-            .doc(uid)
-            .get()
-            .then((snapshot) => {
-                // if(snapshot.exists) returns false, can try
-                if(snapshot.exists){
-                    let user = snapshot.data(); 
-                    user.uid = snapshot.id; 
-
-                    dispatch({type: USERS_DATA_STATE_CHANGE, user: user})
-                    dispatch(fetchUsersFollowingPosts(user.uid)); 
-                }
-                else {
-                    console.log('does not exist')
-                }
-            })
-        }
-    })
-}
 
 export { fetchUser, fetchUserPosts, fetchUserFollowing, fetchUsersFollowingPosts }

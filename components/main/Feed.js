@@ -9,11 +9,11 @@ const Feed = (props) => {
     const[posts, setPosts] = useState([])
     // console.group('.......')
     // console.log(props.following)
-    // console.log('userLoaded:')
-    // console.log(props.userLoaded)
+    // console.log('usersFollowingLoaded:')
+    // console.log(props.usersFollowingLoaded)
     useEffect(() => {
         let posts = []
-        if(props.userLoaded == props.following.length){
+        if(props.usersFollowingLoaded == props.following.length){
             for(let i = 0; i < props.following.length; i++){
                 // console.log(props.users[i].uid)
                 const user = props.users.find(el => el.uid === props.following[i])  
@@ -34,7 +34,7 @@ const Feed = (props) => {
 
             setPosts(posts)
         }
-    }, [props.userLoaded])
+    }, [props.usersFollowingLoaded])
 
     // console.log('props.users: ')
     // console.log(props.users)
@@ -104,7 +104,7 @@ const mapStateToProps = (store) => {
         currentUser: store.userState.currentUser, 
         posts: store.userState.posts, 
         users: store.usersState.users, 
-        userLoaded: store.usersState.userLoaded, 
+        usersFollowingLoaded: store.usersState.usersFollowingLoaded, 
         following: store.userState.following
     }
 }

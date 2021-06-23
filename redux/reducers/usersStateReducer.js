@@ -2,7 +2,7 @@ import { USERS_DATA_STATE_CHANGE, USERS_POSTS_STATE_CHANGE } from "../constants"
 
 const initialState = {
     users: [], 
-    userLoaded: 0, 
+    usersFollowingLoaded: 0, 
 }
 
 export const usersStateReducer = (state = initialState, action) => {
@@ -19,7 +19,7 @@ export const usersStateReducer = (state = initialState, action) => {
         case USERS_POSTS_STATE_CHANGE: 
             return {
                 ...state, 
-                userLoaded: state.userLoaded + 1, 
+                usersFollowingLoaded: state.usersFollowingLoaded + 1, 
                 users: state.users.map(user => user.uid === action.uid ? 
                     {...user, posts: action.posts} : user)
             }
