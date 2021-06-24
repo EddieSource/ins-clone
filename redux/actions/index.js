@@ -2,6 +2,7 @@ import { USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE
 import firebase from 'firebase'
 
 const clearData = () => {
+    console.log('clearData1') 
     return((dispatch) => {
         dispatch({type: CLEAR_DATA})
     })

@@ -1,4 +1,4 @@
-import { USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE } from "../constants"
+import { CLEAR_DATA, USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE } from "../constants"
 
 const initialState = {
     currentUser: null, 
@@ -12,6 +12,8 @@ export const userStateReducer = (state = initialState, action) => {
             return {
                 ...state
             }
+        case CLEAR_DATA:
+            return initialState
         case USER_STATE_CHANGE: 
             return {
                 ...state, 

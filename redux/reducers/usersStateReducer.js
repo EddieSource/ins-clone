@@ -12,6 +12,9 @@ export const usersStateReducer = (state = initialState, action) => {
             return {
                 ...state
             }
+        case CLEAR_DATA:
+            console.log('clearData2') 
+            return initialState
         case USERS_DATA_STATE_CHANGE: 
             return {
                 ...state, 
@@ -24,8 +27,6 @@ export const usersStateReducer = (state = initialState, action) => {
                 usersFollowingLoaded: state.usersFollowingLoaded + 1, 
                 feed: [...state.feed, ...action.posts]
             }
-        case CLEAR_DATA: 
-            return initialState
     }
 
 }

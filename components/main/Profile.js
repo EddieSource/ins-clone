@@ -3,6 +3,8 @@ import { View, Text, Image, StyleSheet, FlatList, Button } from 'react-native'
 import firebase from 'firebase'
 require('firebase/firestore')
 import { connect } from 'react-redux' 
+import { bindActionCreators } from 'redux'
+import { clearData } from '../../redux/actions'
 
  
 const Profile = (props) => {
@@ -80,6 +82,7 @@ const Profile = (props) => {
     }
 
     const onLogout = () => {
+        // clearData()
         firebase.auth().signOut()
     }
 
@@ -162,5 +165,6 @@ const mapStateToProps = (store) => {
         following: store.userState.following
     }
 }
+const mapDispatchToProps = (dispatch) => bindActionCreators({ clearData }, dispatch)
 
-export default connect(mapStateToProps, null)(Profile)
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)
