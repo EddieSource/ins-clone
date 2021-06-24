@@ -1,7 +1,8 @@
-import { USERS_DATA_STATE_CHANGE, USERS_POSTS_STATE_CHANGE } from "../constants"
+import { CLEAR_DATA, USERS_DATA_STATE_CHANGE, USERS_POSTS_STATE_CHANGE } from "../constants"
 
 const initialState = {
     users: [], 
+    feed: [], 
     usersFollowingLoaded: 0, 
 }
 
@@ -17,12 +18,14 @@ export const usersStateReducer = (state = initialState, action) => {
                 users: [...state.users, action.user]
             }
         case USERS_POSTS_STATE_CHANGE: 
+            console.log(action.posts)
             return {
                 ...state, 
                 usersFollowingLoaded: state.usersFollowingLoaded + 1, 
-                users: state.users.map(user => user.uid === action.uid ? 
-                    {...user, posts: action.posts} : user)
+                feed: [...state.feed, ...action.posts]
             }
+        case CLEAR_DATA: 
+            return initialState
     }
 
 }

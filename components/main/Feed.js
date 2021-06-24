@@ -12,29 +12,20 @@ const Feed = (props) => {
     // console.log('usersFollowingLoaded:')
     // console.log(props.usersFollowingLoaded)
     useEffect(() => {
-        let posts = []
-        if(props.usersFollowingLoaded == props.following.length){
-            for(let i = 0; i < props.following.length; i++){
-                // console.log(props.users[i].uid)
-                const user = props.users.find(el => el.uid === props.following[i])  
-                // console.log("user")
-                // console.log(user)
-                if(user != undefined){
-                    // console.log("user.posts")
-                    // console.log(user.posts)
-                    posts = [...posts, ...user.posts]
-                }
-            }
-
+        if(props.usersFollowingLoaded == props.following.length && props.following.length !== 0){
             // pass a comparator in
-            posts.sort((post1, post2) => {
+            props.feed.sort((post1, post2) => {
                 // small time presents first
                 return -(post1.creation - post2.creation)
             })
 
-            setPosts(posts)
+            setPosts(props.feed)
+            console.log('props.feed: ')
+            console.log(props.feed)
+            console.log('posts: ')
+            console.log(posts)
         }
-    }, [props.usersFollowingLoaded])
+    }, [props.usersFollowingLoaded, props.feed])
 
     // console.log('props.users: ')
     // console.log(props.users)
@@ -52,9 +43,10 @@ const Feed = (props) => {
                     horizontal={false}
                     data={posts}
                     renderItem={({item})=>{
-                        // console.log('item')
-                        // console.log(item)
+                        console.log('item')
+                        console.log(item)
                         return(
+
                             <View style = {styles.containerImage}>
                                 <Text style = {styles.container}>{item.user.name}</Text>
                                 <Image 
@@ -102,8 +94,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (store) => {
     return { 
         currentUser: store.userState.currentUser, 
+        feed: store.usersState.feed, 
         posts: store.userState.posts, 
-        users: store.usersState.users, 
         usersFollowingLoaded: store.usersState.usersFollowingLoaded, 
         following: store.userState.following
     }
