@@ -1,5 +1,6 @@
-import { USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USERS_DATA_STATE_CHANGE, CLEAR_DATA } from '../constants/index'
+import { USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USERS_DATA_STATE_CHANGE, USERS_LIKES_STATE_CHANGE, CLEAR_DATA } from '../constants/index'
 import firebase from 'firebase'
+require('firebase/firestore')
 
 const clearData = () => {
     console.log('clearData1') 
@@ -129,6 +130,11 @@ const fetchUsersFollowingPosts = (uid) => {
 
                 console.log(posts)
                 console.log('posts done')
+                
+                for(let i = 0; i < posts.length; i++){
+                    console.log(posts[i].id)
+                    dispatch(fetchUsersFollowingLikes(uid, posts[i].id))
+                }
                 dispatch({type: USERS_POSTS_STATE_CHANGE, posts: posts, uid: uid})
                 console.log(getState())
                 }
@@ -138,5 +144,34 @@ const fetchUsersFollowingPosts = (uid) => {
 }
 
 
+const fetchUsersFollowingLikes = (uid, postId) => {
+    console.log('uid: ')
+    console.log(uid)
+    console.log('postid: ')
+    console.log(postId)
+    return((dispatch, getState) => {
+        firebase.firestore()
+            .collection("post")
+            .doc(uid)
+            .collection("userPosts")
+            .doc(postId)
+            .collection("likes")
+            .doc(firebase.auth().currentUser.uid)
+            .onSnapshot((snapshot) => {
+                // if(snapshot.exists) returns false, can try
+                console.log('likeHandler')
+                // const postId = snapshot.ZE.path.segments[3]
+                console.log('impossible postId')
+                console.log(postId)
+                let currentUserLike = false; 
+                if(snapshot.exists){
+                    currentUserLike = true; 
+                }
 
-export { fetchUser, fetchUserPosts, fetchUserFollowing, fetchUsersFollowingPosts, clearData }
+                dispatch({ type: USERS_LIKES_STATE_CHANGE, postId, currentUserLike})
+            })
+    })
+}
+
+
+export { fetchUser, fetchUserPosts, fetchUserFollowing, fetchUsersFollowingPosts, fetchUsersFollowingLikes, clearData }
