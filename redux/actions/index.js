@@ -3,13 +3,14 @@ import firebase from 'firebase'
 require('firebase/firestore')
 
 const clearData = () => {
-    console.log('clearData1') 
+   
     return((dispatch) => {
         dispatch({type: CLEAR_DATA})
     })
 }
 
 const fetchUser = () => {
+    console.log("feccccching")
     return((dispatch) => {
         firebase.firestore()
             .collection("users")
@@ -28,6 +29,7 @@ const fetchUser = () => {
 }
 
 const fetchUserPosts = () => {
+    console.log("feccccching")
     return((dispatch) => {
         firebase.firestore()
             .collection("post")
@@ -48,8 +50,11 @@ const fetchUserPosts = () => {
 }
 
 const fetchUserFollowing = () => {
+
     return((dispatch) => {
-        firebase.firestore()
+        let unsub
+        if(firebase.auth().currentUser.uid){
+        unsub= firebase.firestore()
             .collection("following")
             .doc(firebase.auth().currentUser.uid)
             .collection("userFollowing")
@@ -68,16 +73,21 @@ const fetchUserFollowing = () => {
                     dispatch(fetchUsersData(following[i], true)); 
                 }
             })
+        }else{
+            unsub()
+        }
     })
 }
 
 
 export function fetchUsersData(uid, getPosts){
+    console.log("feccccching")
     return((dispatch, getState) => {
         // see if some of the usesState.users match the passing in uid
         console.log("current usersState.users: ")
         console.log(getState().usersState.users)
         const found = getState().usersState.users.some(elem => elem.uid === uid)
+        console.log(found,".....")
         // if the uid is not in our array
         if(!found){
             firebase.firestore()
@@ -108,6 +118,7 @@ const fetchUsersFollowingPosts = (uid) => {
     console.log('....')
     console.log(uid)
     return((dispatch, getState) => {
+        
         firebase.firestore()
             .collection("post")
             .doc(uid)
@@ -150,7 +161,9 @@ const fetchUsersFollowingLikes = (uid, postId) => {
     console.log('postid: ')
     console.log(postId)
     return((dispatch, getState) => {
-        firebase.firestore()
+     let unsub
+     if(firebase.auth().currentUser.uid){
+        unsub = firebase.firestore()
             .collection("post")
             .doc(uid)
             .collection("userPosts")
@@ -170,7 +183,11 @@ const fetchUsersFollowingLikes = (uid, postId) => {
 
                 dispatch({ type: USERS_LIKES_STATE_CHANGE, postId, currentUserLike})
             })
+        }else{
+            unsub()
+        }
     })
+    
 }
 
 

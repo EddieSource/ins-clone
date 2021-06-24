@@ -3,7 +3,8 @@ import { View, Text, Image, StyleSheet, FlatList, Button } from 'react-native'
 import firebase from 'firebase'
 require('firebase/firestore')
 import { connect } from 'react-redux' 
-
+import { fetchUserFollowing }from '../../redux/actions/index'
+// import { fetchUserFollowing } from '../redux/actions/index'
  
 const Feed = (props) => {
     const[posts, setPosts] = useState([])
@@ -12,19 +13,24 @@ const Feed = (props) => {
     // console.log('usersFollowingLoaded:')
     // console.log(props.usersFollowingLoaded)
     useEffect(() => {
-        if(props.usersFollowingLoaded == props.following.length && props.following.length !== 0){
+        if(props.usersFollowingLoaded === props.following.length && props.following.length !== 0){
             // pass a comparator in
             props.feed.sort((post1, post2) => {
                 // small time presents first
                 return -(post1.creation - post2.creation)
             })
-
+ 
             setPosts(props.feed)
             console.log('props.feed: ')
             console.log(props.feed)
             console.log('posts: ')
             console.log(posts)
         }
+
+        if(props.feed.length===0){
+            setPosts([])
+        }
+        return ()=>{}
     }, [props.usersFollowingLoaded, props.feed])
 
     // console.log('props.users: ')
@@ -57,17 +63,23 @@ const Feed = (props) => {
             .delete({})
     }
 
-
+    const [isRefreshing,setRefreshing ]=useState(false)
     return(
         <View style={styles.container}>
+          
             <View style={styles.containerGallery}>
                 <FlatList
                     numColumns={1}
                     horizontal={false}
                     data={posts}
+                    refreshing={isRefreshing}
+                   
+                    onRefresh={()=>{
+                        props.fetchUserFollowing()
+                        setRefreshing(false)
+                    }
+                    }
                     renderItem={({item})=>{
-                        console.log('item')
-                        console.log(item)
                         return(
 
                             <View style = {styles.containerImage}>
@@ -133,8 +145,13 @@ const mapStateToProps = (store) => {
         feed: store.usersState.feed, 
         posts: store.userState.posts, 
         usersFollowingLoaded: store.usersState.usersFollowingLoaded, 
-        following: store.userState.following
+        following: store.userState.following,
+        state:store
     }
 }
-
-export default connect(mapStateToProps, null)(Feed)
+const mapDispatch = (dispatch)=>{
+    return{
+        fetchUserFollowing:()=>dispatch(fetchUserFollowing())
+    }
+}
+export default connect(mapStateToProps, mapDispatch )(Feed)

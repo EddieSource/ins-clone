@@ -11,11 +11,11 @@ const Profile = (props) => {
     const [userPosts, setUserPosts] = useState([])
     const [user, setUser] = useState(null)
     const [following, setFollowing] = useState(false)
-    
+   
     useEffect(() => {
         const { currentUser, posts } = props
         // console.log(props.route.params.uid)
-        if(props.route.params.uid === firebase.auth().currentUser.uid){
+        if(firebase.auth().currentUser && props.route.params.uid === firebase.auth().currentUser.uid){
             setUser(currentUser)
             setUserPosts(posts)
         }
@@ -57,6 +57,8 @@ const Profile = (props) => {
             setFollowing(false); 
 
         }
+
+        return ()=>{}
     }, [props.route.params.uid, props.following])
 
     if(user === null) {
@@ -82,7 +84,7 @@ const Profile = (props) => {
     }
 
     const onLogout = () => {
-        // clearData()
+        props.clearData()
         firebase.auth().signOut()
     }
 

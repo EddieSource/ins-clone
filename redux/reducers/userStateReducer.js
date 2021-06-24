@@ -13,6 +13,7 @@ export const userStateReducer = (state = initialState, action) => {
                 ...state
             }
         case CLEAR_DATA:
+            console.log("clear data current user")
             return initialState
         case USER_STATE_CHANGE: 
             return {

@@ -59,7 +59,7 @@ const Comment = (props) => {
         }
 
         setPostId(props.route.params.postId)
-
+        return ()=>{}
     }, [props.route.params.postId, props.users])
 
     const onCommentSend = () => {
