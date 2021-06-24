@@ -1,6 +1,12 @@
-import { USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USERS_DATA_STATE_CHANGE } from '../constants/index'
+import { USER_POSTS_STATE_CHANGE, USER_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USERS_DATA_STATE_CHANGE, CLEAR_DATA } from '../constants/index'
 import firebase from 'firebase'
 
+const clearData = () => {
+    console.log('clearData1') 
+    return((dispatch) => {
+        dispatch({type: CLEAR_DATA})
+    })
+}
 
 const fetchUser = () => {
     return((dispatch) => {
@@ -68,6 +74,8 @@ const fetchUserFollowing = () => {
 export function fetchUsersData(uid, getPosts){
     return((dispatch, getState) => {
         // see if some of the usesState.users match the passing in uid
+        console.log("current usersState.users: ")
+        console.log(getState().usersState.users)
         const found = getState().usersState.users.some(elem => elem.uid === uid)
         // if the uid is not in our array
         if(!found){
@@ -131,4 +139,4 @@ const fetchUsersFollowingPosts = (uid) => {
 
 
 
-export { fetchUser, fetchUserPosts, fetchUserFollowing, fetchUsersFollowingPosts }
+export { fetchUser, fetchUserPosts, fetchUserFollowing, fetchUsersFollowingPosts, clearData }
