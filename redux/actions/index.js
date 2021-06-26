@@ -105,8 +105,8 @@ export function fetchUsersData(uid, getPosts){
 }
 
 const fetchUsersFollowingPosts = (uid) => {
-    console.log('....')
-    console.log(uid)
+    // console.log('....')
+    // console.log(uid)
     return((dispatch, getState) => {
         firebase.firestore()
             .collection("post")
@@ -117,8 +117,8 @@ const fetchUsersFollowingPosts = (uid) => {
             .then((snapshot) => {
                 // if(snapshot.exists) returns false, can try
                 try {const uid = snapshot.docs[0].ref.path.split('/')[1]
-                console.log('.......')
-                console.log(uid)
+                // console.log('.......')
+                // console.log(uid)
                 const user = getState().usersState.users.find(el => el.uid === uid)
                 
                 // attach the post of the user to the founded user

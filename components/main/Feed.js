@@ -12,6 +12,12 @@ const Feed = (props) => {
     // console.log('usersFollowingLoaded:')
     // console.log(props.usersFollowingLoaded)
     useEffect(() => {
+        console.log('feed')
+        console.log('afterClear')
+        console.log(props.userState)
+        console.log('.....')
+        console.log(props.usersState)
+
         if(props.usersFollowingLoaded == props.following.length && props.following.length !== 0){
             // pass a comparator in
             props.feed.sort((post1, post2) => {
@@ -25,6 +31,7 @@ const Feed = (props) => {
             console.log('posts: ')
             console.log(posts)
         }
+        if(props.following.length == 0) setPosts([])
     }, [props.usersFollowingLoaded, props.feed])
 
     // console.log('props.users: ')
@@ -66,8 +73,8 @@ const Feed = (props) => {
                     horizontal={false}
                     data={posts}
                     renderItem={({item})=>{
-                        console.log('item')
-                        console.log(item)
+                        // console.log('item')
+                        // console.log(item)
                         return(
 
                             <View style = {styles.containerImage}>
@@ -133,7 +140,10 @@ const mapStateToProps = (store) => {
         feed: store.usersState.feed, 
         posts: store.userState.posts, 
         usersFollowingLoaded: store.usersState.usersFollowingLoaded, 
-        following: store.userState.following
+        following: store.userState.following, 
+
+        userState: store.userState, 
+        usersState: store.usersState
     }
 }
 

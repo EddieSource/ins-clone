@@ -82,8 +82,17 @@ const Profile = (props) => {
     }
 
     const onLogout = () => {
-        // clearData()
-        firebase.auth().signOut()
+        props.clearData()
+        setTimeout(() => {
+            console.log('logout: ')
+            console.log('afterClear')
+            console.log(props.userState)
+            console.log('.....')
+            console.log(props.usersState)
+          }, 5000)
+
+        
+        // firebase.auth().signOut()
     }
 
     return(
@@ -162,7 +171,10 @@ const mapStateToProps = (store) => {
     return { 
         currentUser: store.userState.currentUser, 
         posts: store.userState.posts, 
-        following: store.userState.following
+        following: store.userState.following, 
+
+        userState: store.userState, 
+        usersState: store.usersState
     }
 }
 const mapDispatchToProps = (dispatch) => bindActionCreators({ clearData }, dispatch)
