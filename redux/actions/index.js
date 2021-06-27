@@ -49,7 +49,7 @@ const fetchUserPosts = () => {
 
 const fetchUserFollowing = () => {
     return((dispatch) => {
-        firebase.firestore()
+        const unsubscribe = firebase.firestore()
             .collection("following")
             .doc(firebase.auth().currentUser.uid)
             .collection("userFollowing")
@@ -68,6 +68,7 @@ const fetchUserFollowing = () => {
                     dispatch(fetchUsersData(following[i], true)); 
                 }
             })
+        return unsubscribe
     })
 }
 
@@ -128,15 +129,15 @@ const fetchUsersFollowingPosts = (uid) => {
                     return{id, ...data, user}
                 })
 
-                console.log(posts)
-                console.log('posts done')
+                // console.log(posts)
+                // console.log('posts done')
                 
                 for(let i = 0; i < posts.length; i++){
-                    console.log(posts[i].id)
+                    // console.log(posts[i].id)
                     dispatch(fetchUsersFollowingLikes(uid, posts[i].id))
                 }
                 dispatch({type: USERS_POSTS_STATE_CHANGE, posts: posts, uid: uid})
-                console.log(getState())
+                // console.log(getState())
                 }
                 finally {}
             })
@@ -145,10 +146,10 @@ const fetchUsersFollowingPosts = (uid) => {
 
 
 const fetchUsersFollowingLikes = (uid, postId) => {
-    console.log('uid: ')
-    console.log(uid)
-    console.log('postid: ')
-    console.log(postId)
+    // console.log('uid: ')
+    // console.log(uid)
+    // console.log('postid: ')
+    // console.log(postId)
     return((dispatch, getState) => {
         firebase.firestore()
             .collection("post")
@@ -159,10 +160,10 @@ const fetchUsersFollowingLikes = (uid, postId) => {
             .doc(firebase.auth().currentUser.uid)
             .onSnapshot((snapshot) => {
                 // if(snapshot.exists) returns false, can try
-                console.log('likeHandler')
+                
                 // const postId = snapshot.ZE.path.segments[3]
-                console.log('impossible postId')
-                console.log(postId)
+                
+                // console.log(postId)
                 let currentUserLike = false; 
                 if(snapshot.exists){
                     currentUserLike = true; 

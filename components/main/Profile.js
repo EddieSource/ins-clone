@@ -14,7 +14,6 @@ const Profile = (props) => {
     
     useEffect(() => {
         const { currentUser, posts } = props
-        // console.log(props.route.params.uid)
         if(props.route.params.uid === firebase.auth().currentUser.uid){
             setUser(currentUser)
             setUserPosts(posts)
@@ -82,17 +81,10 @@ const Profile = (props) => {
     }
 
     const onLogout = () => {
-        props.clearData()
-        setTimeout(() => {
-            console.log('logout: ')
-            console.log('afterClear')
-            console.log(props.userState)
-            console.log('.....')
-            console.log(props.usersState)
-          }, 5000)
+        // props.clearData()
 
         
-        // firebase.auth().signOut()
+        firebase.auth().signOut()
     }
 
     return(

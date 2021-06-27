@@ -42,7 +42,6 @@ const App = () => {
   const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
-
     firebase.auth().onAuthStateChanged((user)=>{
       // console.log('auth...................')
       if(!user){
@@ -56,6 +55,8 @@ const App = () => {
     })
   },[])
 
+
+
   if(!loaded){
     return(
       <View style={{flex: 1, justifyContent: 'center'}}>
@@ -66,6 +67,7 @@ const App = () => {
 
   if (!loggedIn) {
     return (
+    <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Landing"> 
           <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false}}/>
@@ -73,6 +75,7 @@ const App = () => {
           <Stack.Screen name="Login" component={LoginScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
+    </Provider>
     );
   }
   return (

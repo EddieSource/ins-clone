@@ -12,11 +12,11 @@ const Feed = (props) => {
     // console.log('usersFollowingLoaded:')
     // console.log(props.usersFollowingLoaded)
     useEffect(() => {
-        console.log('feed')
-        console.log('afterClear')
-        console.log(props.userState)
-        console.log('.....')
-        console.log(props.usersState)
+        // console.log('feed')
+        // console.log('afterClear')
+        // console.log(props.userState)
+        // console.log('.....')
+        // console.log(props.usersState)
 
         if(props.usersFollowingLoaded == props.following.length && props.following.length !== 0){
             // pass a comparator in
@@ -26,10 +26,10 @@ const Feed = (props) => {
             })
 
             setPosts(props.feed)
-            console.log('props.feed: ')
-            console.log(props.feed)
-            console.log('posts: ')
-            console.log(posts)
+            // console.log('props.feed: ')
+            // console.log(props.feed)
+            // console.log('posts: ')
+            // console.log(posts)
         }
         if(props.following.length == 0) setPosts([])
     }, [props.usersFollowingLoaded, props.feed])
