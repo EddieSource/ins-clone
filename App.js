@@ -14,7 +14,7 @@ import AddScreen from './components/main/Add'
 import SaveScreen from './components/main/Save'
 import CommentScreen from './components/main/Comment'
 
-import envConfig from './env.json'
+import envConfig from './.env.json'
 
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
