@@ -23,7 +23,11 @@ const Main = ({currentUser, fetchUser, fetchUserPosts, fetchUserFollowing}) => {
     useEffect(() => {
         fetchUser()
         fetchUserPosts()
-        fetchUserFollowing()
+        const unsubscribe = fetchUserFollowing()
+        //clean listner, unmount component
+        return () => {
+            unsubscribe()
+        }
     }, [])
 
     
